@@ -4,8 +4,8 @@
 class Solution {
 	
   //initializing starting index, ending index, array
-	int start = 0;
-	static int[] nums = new int[]{ 5,7,7,8,8,10};  
+  int start = 0;
+  static int[] nums = new int[]{ 5,7,7,8,8,10};  
   int end = nums.length-1;
 	
     public int searchRange (int[] nums, int target) {    
@@ -26,8 +26,7 @@ class Solution {
           } else {
               start = middle + 1;
           }
-       }
-        
+       }        
        return first_position;
     }
  
@@ -35,29 +34,29 @@ class Solution {
  
           int start = 0;
           int end = nums.length - 1; 
-          int index = -1;
+          int last_position = -1;
           //finding last position in right half of array
 
           for (int i = 0; i < nums.length; i++)  {
-              int mid = (start + end) / 2;
+              int middle = (start + end) / 2;
               //checks if middle number equals target and then next numbers
-              if (nums[mid]==target) {
-                index= mid;
-                start = mid+1;
+              if (nums[middle]==target) {
+                last_position= middle;
+                start = middle + 1;
                 //if middle number greater than target, last index of range decreases by 1
-              } else if (nums[mid] > target) {
-                 end = mid-1;
+              } else if (nums[middle] > target) {
+                 end = middle - 1;
                  //first index of range increases by 1
               } else {
-                 start = mid+1;
+                 start = middle + 1;
               }
           }
-   return index;
+   return last_position;
    }
   
    public static void main(String[] args) {
        
-	   int target = 8;
+       int target = 8;
        //creating object solution
        Solution s = new Solution(); 
        //calling object methods and creating position variables
