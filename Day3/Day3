@@ -1,0 +1,89 @@
+//MainActivity 
+
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends AppCompatActivity {
+
+   
+   @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //sets activity_main.xml as main layout in resource folder
+        setContentView(R.layout.activity_main);
+        //logging message (debug)
+        Log.d("tag","In onCreate");
+
+    }
+    //overriding lifecycle methods
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("tag","In onStart");
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("tag","In onResume");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("tag","In onPause");
+    }
+    protected void onStop() {
+        super.onStop();
+        Log.d("tag","In onStop");
+    }
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("tag","In onDestroy");
+    }
+    }
+    
+    
+
+
+//activity_main.xml
+    
+    <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+
+//taking up entire space/size of phone
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+//allows for placement of button under text (column layout)
+    android:orientation="vertical"
+
+//16 density independent pixels padding (space between view and contents) on each side
+    //dimensions file for 16dp (paddingBottom)
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context=".MainActivity">
+//creating text "Hello World"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_world"
+        android:textSize="30sp"
+        android:textColor="@color/colorAccent"
+        />
+ //creating button under text 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Button_push_me"
+
+        />
+
+
+</LinearLayout>
