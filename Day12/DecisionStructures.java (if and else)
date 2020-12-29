@@ -1,0 +1,70 @@
+package com.example.decisions;
+
+import javax.swing.*;
+
+public class DecisionStructures {
+    public static void main(String[] args) {
+       //declaring and assigning int variables
+        int number;
+        String input;
+
+
+        input = JOptionPane.showInputDialog("Please enter the number: ");
+        //converts input to integer and saves into first number
+        number = Integer.parseInt(input);
+/*
+        if (number == 5)
+        {
+            //if number input equals 5, displays message
+            JOptionPane.showMessageDialog(null, "The number is exactly 5!");
+        }
+        else if (number > 10)
+        {
+            //if number input greater than 10, displays message
+            //doesn't print >5 message
+            JOptionPane.showMessageDialog(null, "The number is greater than 10!");
+        }
+        else if (number > 5)
+        {
+            //if number input greater than 5, displays message
+            JOptionPane.showMessageDialog(null, "The number is greater than 5!");
+        }
+      else
+        {
+            //if number input less than 5, displays message
+            JOptionPane.showMessageDialog(null, "The number is less than 5!");
+
+        }
+        */
+
+        if (number < 50 && number >= 45)
+        {
+            //if number input greater than 50 and equal or less than 45, displays message
+            JOptionPane.showMessageDialog(null, "You can write re-assessment!");
+        }
+        else if (number < 45)
+        {
+            //if number input less than 45, displays message
+            JOptionPane.showMessageDialog(null, "You failed!");
+        }
+        else
+            //number at least 50
+        {
+            if (number >= 75)
+            {
+                //if number input equal or greater than 75, displays message
+                JOptionPane.showMessageDialog(null, "You have a distinction!");
+            }
+            else
+            {
+                //if number input less than 75 (and at least 50), displays message
+                JOptionPane.showMessageDialog(null, "You passed!");
+            }
+        }
+
+
+        //exits program, status=0(no errors)
+        System.exit(0);
+    }
+
+}
