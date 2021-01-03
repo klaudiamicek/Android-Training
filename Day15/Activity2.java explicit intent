@@ -1,0 +1,25 @@
+package com.example.explicitintent;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class Activity2 extends AppCompatActivity {
+
+    TextView tvWelcome;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_2);
+
+        //finds View objects given ID number
+        tvWelcome = findViewById(R.id.tvWelcome);
+
+        //gets intent with data with string name
+        String name = getIntent().getStringExtra("name");
+        //when button Activity 2 pressed, displays message
+        tvWelcome.setText(name + ", welcome to Activity 2!");
+    }
+}
