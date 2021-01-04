@@ -1,0 +1,74 @@
+package com.example.fragments;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements ListFrag.ItemSelected {
+
+    //for auto-complete functionality, added text component
+    TextView tvDescription;
+    String [] descriptions;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //finds View objects given ID number
+        tvDescription = findViewById(R.id.tvDescription);
+
+        //refers to resources folder, gets descriptions
+        descriptions = getResources().getStringArray(R.array.descriptions);
+
+        //phone in portrait mode
+        if (findViewById(R.id.layout_portrait) != null)
+        {
+            FragmentManager manager = this.getSupportFragmentManager();
+            //on manager object, begins transaction
+            manager.beginTransaction()
+                    //hides detail fragment and shows list fragment
+                    .hide(manager.findFragmentById(R.id.detailFrag))
+                    .show(manager.findFragmentById(R.id.listFrag))
+                    .commit();
+        }
+        //phone in landscape mode
+        if (findViewById(R.id.layout_land) != null)
+        {
+            FragmentManager manager = this.getSupportFragmentManager();
+            //on manager object, begins transaction
+            manager.beginTransaction()
+                    //shows detail fragment and list fragment
+                    .show(manager.findFragmentById(R.id.detailFrag))
+                    .show(manager.findFragmentById(R.id.listFrag))
+                    .commit();
+
+        }
+
+    }
+
+    @Override
+    public void onItemSelected(int index) {
+        //gets index to descriptions
+        tvDescription.setText(descriptions[index]);
+
+        //phone is in portrait mode
+        if (findViewById(R.id.layout_portrait) != null)
+        {
+            FragmentManager manager = this.getSupportFragmentManager();
+            //on manager object, begins transaction
+            manager.beginTransaction()
+                    //shows detail fragment and hides list fragment
+                    .show(manager.findFragmentById(R.id.detailFrag))
+                    .hide(manager.findFragmentById(R.id.listFrag))
+                    //back button allows you to go back to list
+                    .addToBackStack(null)
+                    .commit();
+        }
+
+    }
+}
