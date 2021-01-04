@@ -1,0 +1,75 @@
+package com.example.challengeintents;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+public class CreateContact extends AppCompatActivity implements View.OnClickListener{
+
+    //for auto-complete functionality, added text component
+    EditText etName, etNumber, etWeb, etMap;
+    ImageView ivSad, ivHappy, ivNeutral;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_contact);
+
+        //finds View objects given ID number
+        etName = findViewById(R.id.etName);
+        etNumber = findViewById(R.id.etNumber);
+        etWeb = findViewById(R.id.etWeb);
+        etMap = findViewById(R.id.etMap);
+
+        ivSad = findViewById(R.id.ivSad);
+        ivNeutral = findViewById(R.id.ivNeutral);
+        ivHappy = findViewById(R.id.ivHappy);
+
+        //all will come into same onClick method
+        ivSad.setOnClickListener(this);
+        ivHappy.setOnClickListener(this);
+        ivNeutral.setOnClickListener(this);
+
+
+    }
+    @Override
+    public void onClick(View view) {
+        //if any field empty, displays message
+        if (etName.getText().toString().isEmpty() || etNumber.getText().toString().isEmpty() ||
+                etWeb.getText().toString().isEmpty() || etMap.getText().toString().isEmpty())
+        {
+            Toast.makeText(this, "Please enter all fields!", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            //intent to send back data
+            Intent intent = new Intent();
+            intent.putExtra("name", etName.getText().toString().trim());
+            intent.putExtra("number", etNumber.getText().toString().trim());
+            intent.putExtra("web", etWeb.getText().toString().trim());
+            intent.putExtra("map", etMap.getText().toString().trim());
+
+            if (view.getId() == R.id.ivHappy) {
+                intent.putExtra("mood","happy");
+            }
+            else if (view.getId() == R.id.ivNeutral) {
+                intent.putExtra("mood","neutral");
+            }
+            else {
+                intent.putExtra("mood","sad");
+            }
+            //set result and pass extra data
+            setResult(RESULT_OK, intent);
+            //closes down activity
+            CreateContact.this.finish();
+        }
+
+
+            }
+        }
