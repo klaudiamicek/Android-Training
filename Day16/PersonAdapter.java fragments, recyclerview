@@ -1,0 +1,77 @@
+package com.example.fragmentsrecyclerview;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
+public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder> {
+
+    //creating arraylist to hold person objects passed in adapter
+    private ArrayList<Person> people;
+
+    ItemClicked activity;
+
+    //creates interface to send back to main activity
+    public interface ItemClicked {
+        void onItemClicked(int index);
+    }
+
+    //constructor
+    public PersonAdapter(Context context, ArrayList<Person> list) {
+        people = list;
+        //connection to main activity using this adapter, converting to item clicked
+        activity = (ItemClicked) context;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvName;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            //finds object given ID number
+            tvName = itemView.findViewById(R.id.tvName);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick (View view){
+
+                    activity.onItemClicked(people.indexOf((Person)view.getTag()));
+                }
+            });
+            }
+        }
+
+
+
+    @NonNull
+    @Override
+    public PersonAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
+        //creating view with layout inflator, inflating resource (rollout)
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_layout, viewGroup, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull PersonAdapter.ViewHolder viewHolder, int i) {
+
+    viewHolder.itemView.setTag(people.get(i));
+    //shows name of person
+        viewHolder.tvName.setText(people.get(i).getName());
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+}
