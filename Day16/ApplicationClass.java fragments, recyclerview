@@ -1,0 +1,21 @@
+package com.example.fragmentsrecyclerview;
+
+import android.app.Application;
+
+import java.util.ArrayList;
+
+public class ApplicationClass extends Application {
+
+    //creating array list that will store person objects
+    public static ArrayList<Person> people;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        //new array list and adding people to list(name and telnr)
+        people = new ArrayList<Person>();
+        people.add(new Person("Chris Norris", "0928039482039"));
+        people.add(new Person("John Rambo", "092803980923"));
+        people.add(new Person("Nelson Mandela", "0928340298340"));
+
+    }
+}
