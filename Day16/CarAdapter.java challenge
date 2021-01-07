@@ -1,0 +1,93 @@
+package com.example.recyclerviewfragmentschallenge;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
+public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
+
+    private ArrayList<Car> cars;
+
+    ItemClicked activity;
+
+    //creates interface to send back to main activity
+    public interface ItemClicked {
+        void onItemClicked(int index);
+    }
+
+    //constructor
+    public CarAdapter (Context context, ArrayList<Car> list) {
+        cars=list;
+        //connection to main activity using this adapter, converting to item clicked
+        activity = (ItemClicked) context;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView ivMake;
+        TextView tvModel, tvOwner;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            // //finds View objects given ID number
+            ivMake = itemView.findViewById(R.id.ivMake);
+            tvModel = itemView.findViewById(R.id.tvModel);
+            tvOwner = itemView.findViewById(R.id.tvOwner);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    //link up to activity, activates onItemClicked method, gets index of clicked object
+                    activity.onItemClicked(cars.indexOf((Car)view.getTag()));
+
+            }
+        });
+        }
+    }
+
+
+
+    @NonNull
+    @Override
+    public CarAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        //creating view with layout inflator, inflating resource (rollout)
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_layout, viewGroup, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull CarAdapter.ViewHolder viewHolder, int i) {
+
+        viewHolder.itemView.setTag(cars.get(i));
+
+        //displays owner and model
+        viewHolder.tvOwner.setText(cars.get(i).getOwnerName());
+        viewHolder.tvModel.setText(cars.get(i).getModel());
+
+        //displays car logo based on model
+        if (cars.get(i).getMake().equals("Volkswagen")){
+            viewHolder.ivMake.setImageResource(R.drawable._80b585b2edbce24c47b2cf2);
+        }
+        else if (cars.get(i).getMake().equals("Nissan")){
+            viewHolder.ivMake.setImageResource(R.drawable._80b57fcd9996e24bc43c497);
+        }
+        else {
+            viewHolder.ivMake.setImageResource(R.drawable._604593_middle);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return cars.size();
+    }
+}
