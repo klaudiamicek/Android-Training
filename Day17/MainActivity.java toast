@@ -1,0 +1,57 @@
+package com.example.toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button btnToast;
+
+    @SuppressLint("WrongViewCast")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //finds view by id
+        btnToast = (Button)findViewById(R.id.btnToast);
+
+        btnToast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //makes and then displays text
+                Toast.makeText(MainActivity.this, "Data successfully saved!",
+                        Toast.LENGTH_SHORT).show();
+
+                showToast("Data successfully saved!");
+
+            }
+        });
+
+            }
+            //method to show toast
+            public void showToast(String message) {
+                //using layout inflater to make connection due to external layout
+                View toastView = getLayoutInflater().inflate(R.layout.toast, (ViewGroup) findViewById(R.id.linlay));
+                //connection to tvToast and passing message
+                TextView tvToast = (TextView) toastView.findViewById(R.id.tvToast);
+                tvToast.setText(message);
+
+                //creating toast and setting properties including long duration
+                Toast toast = new Toast(MainActivity.this);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(toastView);
+                toast.setGravity(Gravity.BOTTOM|Gravity.FILL_HORIZONTAL, 0,0);
+                toast.show();
+
+
+            }
+        }
