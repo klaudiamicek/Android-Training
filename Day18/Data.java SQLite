@@ -1,0 +1,38 @@
+package com.example.sqlite;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.sql.SQLException;
+
+public class Data extends AppCompatActivity {
+
+    TextView tvData;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_data);
+
+        //finds view object by id
+        tvData = (TextView) findViewById(R.id.tvData);
+
+        try {
+            //creating database, opening it, getting data
+            ContactsDB db = new ContactsDB(this);
+            db.open();
+            tvData.setText(db.getData());
+
+            //closing database
+            db.close();
+
+        }
+        catch (SQLException e) {
+            //displays message if error
+            Toast.makeText(Data.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+}
