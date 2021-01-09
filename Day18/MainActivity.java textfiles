@@ -1,0 +1,128 @@
+package com.example.textfiles;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText etName, etSurname;
+    TextView tvResults;
+    ArrayList<Person> persons;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //finding view objects by id
+        etName = (EditText) findViewById(R.id.etName);
+        etSurname = (EditText) findViewById(R.id.etSurname);
+        tvResults = (TextView) findViewById(R.id.tvResults);
+
+        persons = new ArrayList<Person>();
+
+        //calls method
+        loadData();
+    }
+
+    public void btnAddData(View v) {
+        String name = etName.getText().toString();
+        String surname = etSurname.getText().toString();
+
+        //creating new person object with arguments name, surname
+        Person person = new Person(name, surname);
+        //adding person to array list
+        persons.add(person);
+
+        //calls method
+        setTextToTextView();
+
+    }
+
+    private void setTextToTextView() {
+        String text = "";
+
+       //for loop (loops up to size of array, gets text with each name and surname)
+        for (int i=0; i < persons.size(); i++) {
+            text = text + persons.get(i).getName() + " " + persons.get(i).getSurname() + "\n";
+        }
+
+        tvResults.setText(text);
+    }
+
+    public void loadData() {
+
+        persons.clear();
+
+        //to see if file exists
+        File file = getApplicationContext().getFileStreamPath("Data.txt");
+        String lineFromFile;
+
+        if (file.exists())
+        {
+            try{
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("Data.txt")));
+                //while loop (while file line not null)
+                while ((lineFromFile = reader.readLine()) != null) {
+
+                    //breaks string into tokens with comma separating tokens
+                    StringTokenizer tokens = new StringTokenizer(lineFromFile, ",");
+                    //new person object
+                    Person person = new Person(tokens.nextToken(), tokens.nextToken());
+                    //adding object to list
+                    persons.add(person);
+                }
+                reader.close();
+
+                setTextToTextView();
+            }
+
+
+            catch (IOException e) {
+                //displays message if error
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+    }
+
+    public void btnSaveData(View v) {
+
+        try {
+            //using file output stream, opens file and makes connection to it to write data
+            FileOutputStream file = openFileOutput("Data.txt", MODE_PRIVATE);
+            OutputStreamWriter outputFile = new OutputStreamWriter(file);
+
+            //runs through every element in array list to write to file
+            for (int i = 0; i < persons.size(); i++) {
+                //calls output file object, writing text (name, surname) to file
+                outputFile.write(persons.get(i).getName() + "," + persons.get(i).getSurname() +"\n");
+            }
+            //makes sure all bytes were written to file and closes file
+            outputFile.flush();
+            outputFile.close();
+
+            Toast.makeText(MainActivity.this, "Successfully saved!", Toast.LENGTH_SHORT).show();
+        }
+        catch(IOException e) {
+
+        }
+
+    }
+}
