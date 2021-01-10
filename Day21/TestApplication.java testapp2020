@@ -1,0 +1,26 @@
+package com.example.testapp2020;
+
+import android.app.Application;
+
+import com.backendless.Backendless;
+
+public class TestApplication extends Application {
+
+    public static final String APPLICATION_ID = "AAC749C7-296E-CD79-FFD3-02EADCC39900";
+    public static final String API_KEY ="CF1CCD84-1788-4FE2-92A3-39C212C075F0";
+    public static final String SERVER_URL ="https://api.backendless.com";
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        //sets url and initializes app
+        Backendless.setUrl(SERVER_URL);
+        Backendless.initApp(getApplicationContext(),
+                APPLICATION_ID,
+                API_KEY);
+    }
+
+
+
+}
